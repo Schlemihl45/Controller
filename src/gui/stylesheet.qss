@@ -1,0 +1,349 @@
+/* ==================== Main Window ==================== */
+QMainWindow {
+    background-color: #1e2633;  /* sehr dunkles Anthrazit */
+}
+
+
+/* ==================== Frames / Panels ==================== */
+QFrame {
+    background-color: transparent;   /* leicht heller als Hintergrund */
+    border: transparent;
+}
+
+
+/* ==================== Labels ==================== */
+QLabel {
+    color: #E6E6E6;
+    font-size: 15px;
+    font-weight: 500;            /* weniger „fett“, moderner */
+}
+
+
+/* ==================== Buttons ==================== */
+QPushButton {
+    background-color: #1c314d;
+    color: #E6E6E6;
+    border-radius: 10px;
+    border: 1px solid #333842;
+    padding: 12px 18px;
+    font-size: 14px;
+}
+
+
+QToolButton {
+    background-color: #1c314d;
+    color: #E6E6E6;
+    border-radius: 10px;
+    border: 1px solid #333842;
+    padding: 12px 18px;
+    font-size: 14px;
+}
+/* ==================== Status Frame ==================== */
+QFrame#statusFrame {
+    background-color: #1c314d;
+    border-radius: 10px;
+    border: 1px solid #2E3440;
+}
+
+QLabel#statusFrame_output{
+    color: #E6E6E6;
+    font-size: 14px;
+    font-weight: bold;
+}
+QLabel#statusFrame_time{
+    color: #E6E6E6;
+    font-size: 14px;
+}
+/* ==================== PositionFrame ==================== */
+QFrame#topFrame_positionFrame {
+    background-color: #1c314d;
+    border-radius: 10px;
+    border: 1px solid #2E3440;
+}
+
+QLabel#positionFrame_positionLabel {
+    color: #E6E6E6;              /* ruhiges Industrie-Blau */
+    font-size: 10px;
+}
+QLabel#positionFrame_remainingPathLabel{
+    color: #E6E6E6;              /* ruhiges Industrie-Blau */
+    font-size: 10px;
+}
+
+QLabel#positionFrame_xLabel,
+QLabel#positionFrame_yLabel,
+QLabel#positionFrame_zLabel {
+    color: #E6E6E6;              /* ruhiges Industrie-Blau */
+    font-size: 24px;
+    font-weight: 600;
+}
+
+QLabel#positionFrame_xCoordinate,
+QLabel#positionFrame_yCoordinate,
+QLabel#positionFrame_zCoordinate {
+    color: #FFFFFF;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+QLabel#positionFrame_xRemaining,
+QLabel#positionFrame_yRemaining,
+QLabel#positionFrame_zRemaining {
+    color: #9AA0A6;              /* dezenter Sekundärtext */
+    font-size: 20px;
+}
+
+QPushButton#positionFrame_xIcon {
+    qproperty-icon: url(../assets/X-Coordinate.svg);
+    qproperty-iconSize: 32px;
+    border: none;
+    background-color: transparent;
+}
+QPushButton#positionFrame_yIcon {
+    qproperty-icon: url(../assets/Y-Coordinate.svg);
+    qproperty-iconSize: 32px;
+    border: none;
+    background-color: transparent;
+}
+QPushButton#positionFrame_zIcon {
+    qproperty-icon: url(../assets/Z-Coordinate.svg);
+    qproperty-iconSize: 32px;
+    border: none;
+    background-color: transparent;
+}
+
+QFrame#line,
+QFrame#line_2 {
+    background-color: transparent;  /* helles Blau */
+    max-height: 1px;
+}
+
+/* ==================== Spindle-Frame ==================== */
+QFrame#topFrame_spindleFrame {
+    background-color: #1c314d;
+    border-radius: 10px;
+    border: 1px solid #2E3440;
+}
+
+QLabel#spindleFrame_rpm{
+    color: #FFFFFF;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+QLabel#spindleFrame_unit {
+    color: #9AA0A6;              /* dezenter Sekundärtext */
+    font-size: 20px;
+}
+
+QPushButton#spindleFrame_spindleIcon{
+    qproperty-icon: url(../assets/spindle.svg);
+    qproperty-iconSize: 64px;
+    border: none;
+    background-color: transparent;
+}
+
+QProgressBar#spindleFrame_loadBar {
+    color: #E6E6E6;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+QLabel#spindleFrame_loadValue {
+    color: #E6E6E6;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ==================== Feedrate-Frame ==================== */
+QFrame#topFrame_feedrateFrame {
+    background-color: #1c314d;
+    border-radius: 10px;
+    border: 1px solid #2E3440;
+}
+
+QLabel#feedrateFrame_feedrate{
+    color: #FFFFFF;
+    font-size: 24px;
+    font-weight: bold;
+}
+QLabel#feedrateFrame_unit {
+    color: #9AA0A6;              /* dezenter Sekundärtext */
+    font-size: 20px;
+}
+QPushButton#feedrateFrame_feedrateIcon{
+    qproperty-icon: url(../assets/feedrate.svg);
+    qproperty-iconSize: 64px;
+    border: none;
+    background-color: transparent;
+}
+
+/* ==================== Menu ==================== */
+
+QToolButton#menuPage_machineButton{
+    qproperty-icon: url(../assets/machine.svg);
+    qproperty-iconSize: 128px;
+}
+
+QToolButton#menuPage_projectsButton{
+    qproperty-icon: url(../assets/projects.svg);
+    qproperty-iconSize: 128px;
+}
+
+QToolButton#menuPage_toolsButton{
+    qproperty-icon: url(../assets/tools.svg);
+    qproperty-iconSize: 128px;
+}
+
+QToolButton#menuPage_settingsButton{
+    qproperty-icon: url(../assets/settings.svg);
+    qproperty-iconSize: 128px;
+    text-align: bottom;
+}
+
+/* ==================== Quick ==================== */
+
+QToolButton#bottomFrame_returnButton{
+    qproperty-icon: url(../assets/return.svg);
+    qproperty-iconSize: 48px;
+}
+
+QToolButton#bottomFrame_coolantButton{
+    qproperty-icon: url(../assets/coolant_off.svg);
+    qproperty-iconSize: 64px;
+}
+
+QToolButton#bottomFrame_lightButton{
+    qproperty-icon: url(../assets/light_off.svg);
+    qproperty-iconSize: 48px;
+}
+
+
+
+/* ==================== Tools Page ==================== */
+
+QFrame#sortFrame {
+    background-color: #1c314d;
+    border-radius: 10px;
+    border: 1px solid #2E3440;
+}
+
+QLabel#sortLabel {
+    color: #E6E6E6;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+QComboBox#sortComboBox {
+    background-color: #34455f;
+    border-radius: 6px;
+    color: #E6E6E6;
+    font-size: 16px;
+    padding-left: 8px;
+}
+
+/* Das eigentliche Dropdown */
+QComboBox#sortComboBox QAbstractItemView {
+    background-color: #34455f;            /* Dropdown Hintergrund */
+    color: #E6E6E6;                       /* Textfarbe */
+    selection-background-color: #3A4F74;  /* Highlight */
+    selection-color: #ffffff;
+    font-size: 16px;
+    border-radius: 6px;
+    outline: 0;
+}
+
+QComboBox#sortComboBox::drop-down {
+    subcontrol-origin: padding;      /* wo der Drop-Down-Bereich startet */
+    subcontrol-position: top right;  /* rechts oben */
+    border-left-style: solid;
+    width: 25px;
+    border-radius: 6px;
+    background-color: transparent;
+}
+QComboBox#sortComboBox::down-arrow {
+    width: 12px;
+    height: 12px;
+    image: url(../assets/dropdown_arrow.svg);
+}
+/* ==================== Tool Detail Page ==================== */
+QFrame#toolDetailPage_infoFrame{
+    background-color: #1c314d;
+    border-radius: 10px;
+    border: 1px solid #2E3440;
+}
+
+QFrame#toolDetailPage_renderFrame{
+    background-color: #1c314d;
+    border-radius: 10px;
+    border: 1px solid #2E3440;
+}
+
+QFrame#toolDetailPage_descriptionFrame{
+    background-color: #1c314d;
+    border-radius: 10px;
+    border: 1px solid #2E3440;
+}
+
+QPlainTextEdit#toolDetailPage_descriptionPlainTextEdit{
+    background-color: #34455f;
+    border-radius: 6px;
+    color: #E6E6E6;
+    font-size: 12px;
+}
+
+QComboBox#toolDetailPage_typeComboBox{
+    background-color: #34455f;
+    border-radius: 6px;
+    color: #E6E6E6;
+    font-size: 16px;
+    padding-left: 8px;
+}
+
+QComboBox#toolDetailPage_typeComboBox QAbstractItemView {
+    background-color: #4a515e;     /* Dropdown background */
+    color: #E6E6E6;                /* Text color */
+    selection-background-color: #3A4F74; /* Hover/selected item */
+    selection-color: #ffffff;      /* Text of selected item */
+    font-size: 16px;
+    border-radius: 6px;
+    border-color: green;
+    outline: 0;
+}
+
+QComboBox#toolDetailPage_typeComboBox::drop-down {
+    subcontrol-origin: padding;      /* wo der Drop-Down-Bereich startet */
+    subcontrol-position: top right;  /* rechts oben */
+    border-left-style: solid;
+    width: 25px;
+    border-radius: 6px;
+    background-color: transparent;
+}
+QComboBox#toolDetailPage_typeComboBox::down-arrow {
+    width: 12px;
+    height: 12px;
+    image: url(../assets/dropdown_arrow.svg);
+}
+
+QLineEdit#toolDetailPage_nameLineEdit,
+QLineEdit#toolDetailPage_diameterLineEdit,
+QLineEdit#toolDetailPage_cuttingLengthLineEdit,
+QLineEdit#toolDetailPage_lengthLineEdit,
+QLineEdit#toolDetailPage_radiusLineEdit,
+QLineEdit#toolDetailPage_flutesLineEdit,
+QLineEdit#toolDetailPage_zOffsetLineEdit,
+QLineEdit#toolDetailPage_rOffsetLineEdit,
+QLineEdit#toolDetailPage_supplierLineEdit{
+    background-color: #34455f;
+    border-radius: 6px;
+    color: #E6E6E6;
+    font-size: 16px;
+    text-align: center;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+QMessageBox#deleteTool_messageBox{
+    background-color: #343b4a;
+    border-radius: 6px;
+}
