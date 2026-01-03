@@ -9,7 +9,10 @@ import sqlite3
 
 DB_PATH = Path(__file__).parent.parent / "database.db"
 
+from database.databaseManager import Database
+
 from gui.scrollWidget import ScrollWidget
+from gui.MakeTouchButton import make_touch_button
 from PySide6.QtWidgets import QFrame, QLabel, QVBoxLayout
 from PySide6.QtCore import Signal, Qt
 
@@ -26,8 +29,6 @@ class ToolsFrame(QFrame):
         super().__init__(parent)
         self.tool_id = tool_id
         self.name = name
-
-
 
         # Set frame style
         self.setStyleSheet("""
@@ -47,7 +48,12 @@ class ToolsFrame(QFrame):
         # Load icons
         icon_endmill = QIcon("../assets/endmill.svg")
         icon_radiusEndmill = QIcon("../assets/radius_endmill.svg")
-        icon_torusEndmill = QIcon("../assets/torus.svg")
+        icon_facemill = QIcon("../assets/facemill.svg")
+        icon_chamferEndmill = QIcon("../assets/chamfermill.svg")
+        icon_threadmill = QIcon("../assets/threadmill.svg")
+        icon_drill = QIcon("../assets/drill.svg")
+
+
 
         # Icon
         self.icon = QToolButton(self)
@@ -55,6 +61,12 @@ class ToolsFrame(QFrame):
             self.icon.setIcon(icon_endmill)
         elif type == "Radius Endmill":
             self.icon.setIcon(icon_radiusEndmill)
+        elif type == "Facemill":
+            self.icon.setIcon(icon_facemill)
+        elif type == "Chamfermill":
+            self.icon.setIcon(icon_chamferEndmill)
+        elif type == "Drill":
+            self.icon.setIcon(icon_drill)
         else:
             self.icon.setIcon(icon_endmill)
 
@@ -157,7 +169,8 @@ class ToolsPage(QWidget):
         self.buttons_layout.addWidget(self.addToolButton)
 
         self.spacer = QPushButton(self)
-        self.spacer.setStyleSheet("background-color: #1c314d;")
+        self.spacer.setText("Tools")
+        self.spacer.setStyleSheet("background-color: #1c314d; text-align: left; font-weight: bold; font-size: 24px; padding-left: 25px;")
         self.spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.buttons_layout.addWidget(self.spacer)
 
@@ -184,24 +197,15 @@ class ToolsPage(QWidget):
         self.main_layout.addWidget(self.scroll_widget)
 
         # Load tools from DB and create ToolFrames
+        self.database = Database()
         self.load_tools()
 
     def load_tools(self):
         """
         Loads all tools from the database and creates a ToolsFrame for each.
         """
-        print("Tools aktualisiert")
-        if not DB_PATH.exists():
-            print("Database does not exist:", DB_PATH)
-            return
 
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT id, name, type, diameter, radius, cutting_length, length, flutes, zOffset, rOffset, supplier, description FROM tools ORDER BY id ASC")
-        tools = cursor.fetchall()
-        print(tools)
-        conn.close()
+        tools = self.database.get_all_tools(order_by="id")
 
         frames = []
         for tool_id, name, type, diameter, radius, cutting_length, length, flutes, zOffset, rOffset, supplier, description in tools:

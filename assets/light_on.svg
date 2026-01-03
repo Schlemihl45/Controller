@@ -13,13 +13,13 @@
 <path d="M76 95C76 84.0922 79.0759 73.4055 84.8745 64.1668L88.2414 66.2799C82.8401 74.8855 79.9751 84.8398 79.9751 95H76Z"/>
 </mask>
 <path d="M76 95C76 84.0922 79.0759 73.4055 84.8745 64.1668L88.2414 66.2799C82.8401 74.8855 79.9751 84.8398 79.9751 95H76Z" fill="#E6E6E6" stroke="#E6E6E6" stroke-width="2" mask="url(#path-7-inside-2_2021_273)"/>
-<line x1="62" y1="15" x2="62" y2="4" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
-<line x1="88.7224" y1="24.9401" x2="96.5006" y2="17.162" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
-<line x1="99" y1="51" x2="110" y2="51" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
-<path d="M89 79L98.5263 84.5" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
-<line x1="2" y1="-2" x2="12.8222" y2="-2" transform="matrix(-0.698522 -0.715588 -0.698522 0.715588 35.7224 27.6066)" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
-<line x1="2" y1="-2" x2="13" y2="-2" transform="matrix(-1 0 0 1 28 52.838)" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
-<path d="M35.4515 78.838L26.1524 84.338" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
+<line x1="62" y1="15" x2="62" y2="4" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
+<line x1="88.7224" y1="24.9401" x2="96.5006" y2="17.162" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
+<line x1="99" y1="51" x2="110" y2="51" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
+<path d="M89 79L98.5263 84.5" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
+<line x1="2" y1="-2" x2="12.8222" y2="-2" transform="matrix(-0.698522 -0.715588 -0.698522 0.715588 35.7224 27.6066)" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
+<line x1="2" y1="-2" x2="13" y2="-2" transform="matrix(-1 0 0 1 28 52.838)" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
+<path d="M35.4515 78.838L26.1524 84.338" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
 <line x1="52" y1="107" x2="73" y2="107" stroke="#E6E6E6" stroke-width="4" stroke-linecap="round"/>
 <line x1="52" y1="101" x2="73" y2="101" stroke="#E6E6E6" stroke-width="4" stroke-linecap="round"/>
 <line x1="47" y1="95" x2="78" y2="95" stroke="#E6E6E6" stroke-width="4" stroke-linecap="round"/>
@@ -33,13 +33,13 @@
 <path d="M76 95C76 84.0922 79.0759 73.4055 84.8745 64.1668L88.2414 66.2799C82.8401 74.8855 79.9751 84.8398 79.9751 95H76Z"/>
 </mask>
 <path d="M76 95C76 84.0922 79.0759 73.4055 84.8745 64.1668L88.2414 66.2799C82.8401 74.8855 79.9751 84.8398 79.9751 95H76Z" fill="#E6E6E6" stroke="#E6E6E6" stroke-width="2" mask="url(#path-21-inside-4_2021_273)"/>
-<line x1="62" y1="15" x2="62" y2="4" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
-<line x1="88.7224" y1="24.9401" x2="96.5006" y2="17.162" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
-<line x1="99" y1="51" x2="110" y2="51" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
-<path d="M89 79L98.5263 84.5" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
-<line x1="2" y1="-2" x2="12.8222" y2="-2" transform="matrix(-0.698522 -0.715588 -0.698522 0.715588 35.7224 27.6066)" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
-<line x1="2" y1="-2" x2="13" y2="-2" transform="matrix(-1 0 0 1 28 52.838)" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
-<path d="M35.4515 78.838L26.1524 84.338" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
+<line x1="62" y1="15" x2="62" y2="4" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
+<line x1="88.7224" y1="24.9401" x2="96.5006" y2="17.162" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
+<line x1="99" y1="51" x2="110" y2="51" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
+<path d="M89 79L98.5263 84.5" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
+<line x1="2" y1="-2" x2="12.8222" y2="-2" transform="matrix(-0.698522 -0.715588 -0.698522 0.715588 35.7224 27.6066)" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
+<line x1="2" y1="-2" x2="13" y2="-2" transform="matrix(-1 0 0 1 28 52.838)" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
+<path d="M35.4515 78.838L26.1524 84.338" stroke="#FF8C00" stroke-width="4" stroke-linecap="round"/>
 </g>
 <defs>
 <clipPath id="clip0_2021_273">

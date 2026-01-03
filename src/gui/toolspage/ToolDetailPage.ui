@@ -57,15 +57,29 @@
          <property name="frameShadow">
           <enum>QFrame::Shadow::Raised</enum>
          </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="8" column="1">
-           <widget class="QLineEdit" name="toolDetailPage_flutesLineEdit">
-            <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignCenter</set>
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Name</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="toolDetailPage_nameLineEdit">
+            <property name="placeholderText">
+             <string> Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Type</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
            <widget class="QComboBox" name="toolDetailPage_typeComboBox">
             <item>
              <property name="text">
@@ -99,42 +113,75 @@
             </item>
            </widget>
           </item>
-          <item row="3" column="0">
+          <item row="2" column="0">
            <widget class="QLabel" name="label_5">
             <property name="text">
              <string>Diameter</string>
             </property>
            </widget>
           </item>
-          <item row="9" column="0">
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>Supplier</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
+          <item row="2" column="1">
            <widget class="QLineEdit" name="toolDetailPage_diameterLineEdit">
             <property name="alignment">
              <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
+            <property name="placeholderText">
+             <string>Tool Diameter</string>
+            </property>
            </widget>
           </item>
-          <item row="5" column="1">
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Radius</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="toolDetailPage_radiusLineEdit">
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+            <property name="placeholderText">
+             <string>Tool Radius</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>Cutting Length</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
            <widget class="QLineEdit" name="toolDetailPage_cuttingLengthLineEdit">
             <property name="alignment">
              <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
-           </widget>
-          </item>
-          <item row="9" column="1">
-           <widget class="QLineEdit" name="toolDetailPage_supplierLineEdit">
-            <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignCenter</set>
+            <property name="placeholderText">
+             <string>Cutting Length</string>
             </property>
            </widget>
           </item>
-          <item row="8" column="0">
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Length</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLineEdit" name="toolDetailPage_lengthLineEdit">
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+            <property name="placeholderText">
+             <string>Total Length</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
            <widget class="QLabel" name="label_11">
             <property name="text">
              <string>Flutes</string>
@@ -142,52 +189,31 @@
            </widget>
           </item>
           <item row="6" column="1">
-           <widget class="QLineEdit" name="toolDetailPage_lengthLineEdit">
+           <widget class="QLineEdit" name="toolDetailPage_flutesLineEdit">
             <property name="alignment">
              <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="toolDetailPage_nameLineEdit"/>
-          </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Length</string>
+            <property name="placeholderText">
+             <string>Number of Flutes</string>
             </property>
            </widget>
           </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="label_9">
+          <item row="7" column="0">
+           <widget class="QLabel" name="label_6">
             <property name="text">
-             <string>Cutting Length</string>
+             <string>Supplier</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>Name</string>
+          <item row="7" column="1">
+           <widget class="QLineEdit" name="toolDetailPage_supplierLineEdit">
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+            <property name="placeholderText">
+             <string>Name of Supplier</string>
             </property>
            </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>Type</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>Radius</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QLineEdit" name="toolDetailPage_radiusLineEdit"/>
           </item>
          </layout>
         </widget>
@@ -231,14 +257,21 @@
            </widget>
           </item>
           <item>
-           <layout class="QGridLayout" name="gridLayout_2">
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="toolDetailPage_zOffsetLineEdit"/>
-            </item>
+           <layout class="QFormLayout" name="formLayout_2">
             <item row="0" column="0">
              <widget class="QLabel" name="label_8">
               <property name="text">
                <string>Z-Offset</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="toolDetailPage_zOffsetLineEdit">
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+              <property name="placeholderText">
+               <string>Tool Z-Offset</string>
               </property>
              </widget>
             </item>
@@ -250,7 +283,14 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="toolDetailPage_rOffsetLineEdit"/>
+             <widget class="QLineEdit" name="toolDetailPage_rOffsetLineEdit">
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+              <property name="placeholderText">
+               <string>Radius Compensation</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -264,7 +304,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QPushButton" name="toolDetailPage_saveButton">
+      <widget class="QToolButton" name="toolDetailPage_saveButton">
        <property name="minimumSize">
         <size>
          <width>100</width>
@@ -277,7 +317,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="toolDetailPage_deleteButton">
+      <widget class="QToolButton" name="toolDetailPage_deleteButton">
        <property name="minimumSize">
         <size>
          <width>100</width>

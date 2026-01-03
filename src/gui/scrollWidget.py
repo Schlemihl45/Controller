@@ -1,26 +1,58 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QScrollArea, QLabel, QFrame, QScroller
-from PySide6.QtCore import Qt, Signal
-from pathlib import Path
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QScrollArea, QFrame
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QSizePolicy
+from PySide6.QtWidgets import QScroller
+
+from PySide6.QtWidgets import QWidget
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QPainter, QLinearGradient, QColor
+
+
+class FadeOverlay(QWidget):
+    """Zeichnet einen transparenten Farbverlauf für oben oder unten."""
+
+    def __init__(self, position: str = "top", color=QColor("#1e2633"), parent=None):
+        super().__init__(parent)
+        self.position = position
+        self.color = color
+        self.setAttribute(Qt.WA_TransparentForMouseEvents)
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        if self.position == "top":
+            gradient = QLinearGradient(0, 0, 0, self.height())
+            gradient.setColorAt(0.0, self.color)
+            gradient.setColorAt(1.0, QColor(self.color.red(),
+                                             self.color.green(),
+                                             self.color.blue(), 0))
+        else:
+            gradient = QLinearGradient(0, 0, 0, self.height())
+            gradient.setColorAt(0.0, QColor(self.color.red(),
+                                             self.color.green(),
+                                             self.color.blue(), 0))
+            gradient.setColorAt(1.0, self.color)
+
+        painter.fillRect(self.rect(), gradient)
 
 class ScrollWidget(QWidget):
     """
-    Vertical scroll widget for touch input.
-
-    Functions:
-        - Adding a Widget to the scroll area
-        - Deleting a Widget from the scroll area
+    Vertical scroll widget for touch input with top/bottom fade overlays.
     """
+
+    FADE_HEIGHT = 24
+
     def __init__(self, parent=None):
         super().__init__(parent)
 
         # ScrollArea
-        scroll_area = QScrollArea()
-        scroll_area.setWidgetResizable(True)
-        scroll_area.setFrameShape(QFrame.NoFrame)
-        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        QScroller.grabGesture(scroll_area.viewport(), QScroller.TouchGesture)
+        self.scroll_area = QScrollArea(self)
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setFrameShape(QFrame.NoFrame)
+        self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        QScroller.grabGesture(self.scroll_area.viewport(), QScroller.TouchGesture)
 
         # Content Widget
         self.content_widget = QWidget()
@@ -30,15 +62,32 @@ class ScrollWidget(QWidget):
         self.objects_layout.setContentsMargins(0, 0, 0, 0)
         self.objects_layout.setSpacing(6)
 
-        scroll_area.setWidget(self.content_widget)
+        self.scroll_area.setWidget(self.content_widget)
 
-        # Main Layout
+        # Layout
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(0, 0, 0, 0)
-        main_layout.addWidget(scroll_area)
         main_layout.setSpacing(0)
+        main_layout.addWidget(self.scroll_area)
 
-        self.setStyleSheet("background-color:transparent;")
+        # Fade overlays
+        self.fade_top = FadeOverlay("top", parent=self)
+        self.fade_bottom = FadeOverlay("bottom", parent=self)
+
+        self.fade_top.setFixedHeight(self.FADE_HEIGHT)
+        self.fade_bottom.setFixedHeight(self.FADE_HEIGHT)
+
+        self.setStyleSheet("background-color: transparent;")
+
+    def resizeEvent(self, event):
+        """Positioniert die Fades korrekt."""
+        w = self.width()
+        h = self.height()
+
+        self.fade_top.setGeometry(0, 0, w, self.FADE_HEIGHT)
+        self.fade_bottom.setGeometry(0, h - self.FADE_HEIGHT, w, self.FADE_HEIGHT)
+
+        super().resizeEvent(event)
 
     def load_objects(self, widgets: list[QWidget]):
         self.delete_objects()
@@ -52,6 +101,3 @@ class ScrollWidget(QWidget):
             widget = item.widget()
             if widget:
                 widget.setParent(None)
-
-
-

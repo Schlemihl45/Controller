@@ -3,22 +3,23 @@ QMainWindow {
     background-color: #1e2633;  /* sehr dunkles Anthrazit */
 }
 
-
+QWidget{
+    border: none;
+}
 /* ==================== Frames / Panels ==================== */
 QFrame {
     background-color: transparent;   /* leicht heller als Hintergrund */
-    border: transparent;
 }
-
+Line#line{
+    background-color: red;
+}
 
 /* ==================== Labels ==================== */
 QLabel {
     color: #E6E6E6;
     font-size: 15px;
-    font-weight: 500;            /* weniger „fett“, moderner */
+    font-weight: 500;
 }
-
-
 /* ==================== Buttons ==================== */
 QPushButton {
     background-color: #1c314d;
@@ -29,12 +30,19 @@ QPushButton {
     font-size: 14px;
 }
 
-
 QToolButton {
     background-color: #1c314d;
     color: #E6E6E6;
     border-radius: 10px;
     border: 1px solid #333842;
+    padding: 12px 18px;
+    font-size: 14px;
+}
+QToolButton:checked {
+    background-color: #1c314d;
+    color: #E6E6E6;
+    border-radius: 10px;
+    border: 1px solid #FF8C00;
     padding: 12px 18px;
     font-size: 14px;
 }
@@ -114,7 +122,7 @@ QPushButton#positionFrame_zIcon {
 
 QFrame#line,
 QFrame#line_2 {
-    background-color: transparent;  /* helles Blau */
+    background-color: red;  /* helles Blau */
     max-height: 1px;
 }
 
@@ -195,6 +203,18 @@ QToolButton#menuPage_toolsButton{
     qproperty-iconSize: 128px;
 }
 
+QToolButton#menuPage_setupButton{
+    qproperty-icon: url(../assets/setup.svg);
+    qproperty-iconSize: 128px;
+    text-align: bottom;
+}
+
+QToolButton#menuPage_statisticsButton{
+    qproperty-icon: url(../assets/statistics.svg);
+    qproperty-iconSize: 128px;
+    text-align: bottom;
+}
+
 QToolButton#menuPage_settingsButton{
     qproperty-icon: url(../assets/settings.svg);
     qproperty-iconSize: 128px;
@@ -217,7 +237,6 @@ QToolButton#bottomFrame_lightButton{
     qproperty-icon: url(../assets/light_off.svg);
     qproperty-iconSize: 48px;
 }
-
 
 
 /* ==================== Tools Page ==================== */
@@ -272,6 +291,18 @@ QFrame#toolDetailPage_infoFrame{
     border-radius: 10px;
     border: 1px solid #2E3440;
 }
+
+QToolButton#toolDetailPage_saveButton{
+    qproperty-icon: url(../assets/saveTool.svg);
+    qproperty-iconSize: 64px;
+}
+
+QToolButton#toolDetailPage_saveButton:pressed {
+    qproperty-icon: url(../assets/saveTool_clicked.svg);
+    qproperty-iconSize: 64px;
+    border: 1px solid orange;
+}
+
 
 QFrame#toolDetailPage_renderFrame{
     background-color: #1c314d;
@@ -345,5 +376,36 @@ QLineEdit#toolDetailPage_supplierLineEdit{
 
 QMessageBox#deleteTool_messageBox{
     background-color: #343b4a;
-    border-radius: 6px;
+}
+
+QPushButton#confirmDeleteTool_delete_button{
+    background-color: #4a515e;
+    font-weight: bold;
+    color: #E6E6E6;
+}
+QPushButton#confirmDeleteTool_cancel_button{
+    background-color: #a87a2a;
+    font-weight: bold;
+    color: #E6E6E6;
+}
+
+QToolButton#manual_mode_button:checked{
+    color: orange;
+    border: 1px solid #2E3440;
+    font-weight: bold;
+}
+QToolButton#auto_mode_button:checked{
+    color: orange;
+    border: 1px solid #2E3440;
+    font-weight: bold;
+}
+QToolButton#manual_mode_button{
+    color: #E6E6E6;
+    font-weight: bold;
+    border: 1px solid #2E3440;
+}
+QToolButton#auto_mode_button{
+    color: #E6E6E6;
+    font-weight: bold;
+    border: 1px solid #2E3440;
 }

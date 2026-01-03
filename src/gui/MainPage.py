@@ -1,15 +1,18 @@
 import os
 from PySide6.QtWidgets import QMainWindow, QPushButton, QToolButton, QProgressBar, QLabel, QFrame, QStackedWidget, QWidget
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtCore import QFile, QSize
+from PySide6.QtCore import QFile, QSize, Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QTimer, QTime
 
 from gui.scrollWidget import ScrollWidget
-from gui.ToolsPage import ToolsPage
-from gui.ToolDetailPage import ToolDetailPage
-from gui.ProjectsPage import ProjectsPage
+from gui.MakeTouchButton import make_touch_button
 
+from gui.toolspage.ToolsPage import ToolsPage
+from gui.toolspage.ToolDetailPage import ToolDetailPage
+from gui.machinepage.MachinePage import MachinePage
+from gui.projectspage.ProjectsPage import ProjectsPage
+from gui.projectspage.ProjectDetailPage import ProjectDetailPage
 import random
 
 from pathlib import Path
@@ -60,6 +63,7 @@ class MainPage(QMainWindow):
         self.projectsPage = ProjectsPage(self)
         self.centralFrame_stackedWidget.addWidget(self.projectsPage)
 
+        self.projectsPage.openProjectDetails.connect(self.openProjectDetails)
         # Status frame
         self.status_time = self.ui.findChild(QLabel, "statusFrame_time")
         self.status_output = self.ui.findChild(QLabel, "statusFrame_output")
@@ -80,18 +84,34 @@ class MainPage(QMainWindow):
 
         # menu buttons
         self.menu_machine_button = self.ui.findChild(QToolButton, "menuPage_machineButton")
+        self.menu_machine_button.clicked.connect(self.open_MachinePage)
+
         self.menu_projects_button = self.ui.findChild(QToolButton, "menuPage_projectsButton")
         self.menu_projects_button.clicked.connect(self.open_projectsPage)
         self.menu_tools_button = self.ui.findChild(QToolButton, "menuPage_toolsButton")
         self.menu_tools_button.clicked.connect(self.open_toolsPage)
         self.menu_settings_button = self.ui.findChild(QToolButton, "menuPage_settingsButton")
+        self.menu_setup_button = self.ui.findChild(QToolButton, "menuPage_setupButton")
+        self.menu_statistics_button = self.ui.findChild(QToolButton, "menuPage_statisticsButton")
 
         # quick buttons
         self.quick_coolant_button = self.ui.findChild(QToolButton, "bottomFrame_coolantButton")
         self.quick_coolant_button.toggled.connect(self.toggle_coolant_button)
         self.quick_light_button = self.ui.findChild(QToolButton, "bottomFrame_lightButton")
         self.quick_light_button.toggled.connect(self.toggle_light_button)
+
+        # Quick Return Button
         self.quick_return_button = self.ui.findChild(QToolButton, "bottomFrame_returnButton")
+        self.quick_return_button.setAttribute(Qt.WA_AcceptTouchEvents, True)
+        self.quick_return_button.setFocusPolicy(Qt.StrongFocus)
+
+        # Erst Touch-Icon einstellen
+        make_touch_button(
+            self.quick_return_button,
+            icon_path="../assets/return.svg",
+            clicked_icon_path="../assets/return.svg"
+        )
+
         self.quick_return_button.clicked.connect(self.on_return_button_clicked)
 
         # Zufällige Positionen
@@ -112,17 +132,31 @@ class MainPage(QMainWindow):
         self.set_status_led("orange")
         self.setup_status_time()
 
+    def openProjectDetails(self, project):
+        print(project)
+
+        self.projectDetailPage = ProjectDetailPage(self, project)
+        self.centralFrame_stackedWidget.addWidget(self.projectDetailPage)
+        self.centralFrame_stackedWidget.setCurrentWidget(self.projectDetailPage)
+        self.lastPage = self.projectsPage
+
     def refresh_tools_list(self):
         """
         Ruft die ToolsPage auf, um die Liste der Tools neu zu laden.
         """
         self.toolsPage.load_tools()
 
-    def openToolDetailPage(self, tool_id=None, name="", type=None, diameter=0, radius = 0, cutting_length = 0, length=0, flutes = 0, zOffset=0, rOffset=0,supplier = None, description = None):
+    def open_MachinePage(self):
+        self.machinePage = MachinePage()
+        self.centralFrame_stackedWidget.addWidget(self.machinePage)
+        self.centralFrame_stackedWidget.setCurrentWidget(self.machinePage)
+        self.lastPage = self.centralFrame_menuPage
+
+    def openToolDetailPage(self, tool_id=None, name="", type="Endmill", diameter="", radius = "", cutting_length = "", length="", flutes = "", zOffset= 0.0,  rOffset= 0.0, supplier = ""):
         """
         Opens ToolDetailPage either empty (new tool) or with existing tool data.
         """
-        self.toolDetailPage = ToolDetailPage(tool_id, name, type, diameter, radius, cutting_length, length, flutes, zOffset, rOffset, description)
+        self.toolDetailPage = ToolDetailPage(tool_id, name, type, diameter, radius, cutting_length, length, flutes, zOffset, rOffset, supplier)
         self.centralFrame_stackedWidget.addWidget(self.toolDetailPage)
         self.centralFrame_stackedWidget.setCurrentWidget(self.toolDetailPage)
         self.lastPage = self.toolsPage
@@ -135,6 +169,10 @@ class MainPage(QMainWindow):
         if self.lastPage == self.toolsPage:
             self.lastPage = self.centralFrame_menuPage
             self.toolsPage.load_tools()
+
+        if self.lastPage == self.projectsPage:
+            self.lastPage = self.centralFrame_menuPage
+            self.projectsPage.load_projects()
 
 
     def open_toolsPage(self):
@@ -164,6 +202,7 @@ class MainPage(QMainWindow):
         self.time_timer = QTimer(self)
         self.time_timer.timeout.connect(self.update_status_time)
         self.time_timer.start(1000)
+
     def update_status_time(self):
         """
         Updates the status time
@@ -201,12 +240,9 @@ class MainPage(QMainWindow):
     # Update light button and send command to the API
     def toggle_light_button(self, checked: bool):
         try:
-            print(checked)
             if checked:
-                print("Light")
                 self.quick_light_button.setIcon(QIcon("../assets/light_on.svg"))
             else:
-                print("Light off")
                 self.quick_light_button.setIcon(QIcon("../assets/light_off.svg"))
         except Exception as e:
             print("ERROR when changing light state:", e)
