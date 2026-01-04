@@ -6,7 +6,7 @@ def make_touch_button(
     button: QPushButton,
     icon_path: str,
     clicked_icon_path: str,
-    border_normal: str = "#2E3440",
+    border_normal: str = "#3A4F74",
     border_pressed: str = "orange"
 ):
     """

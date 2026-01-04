@@ -25,7 +25,7 @@ QPushButton {
     background-color: #1c314d;
     color: #E6E6E6;
     border-radius: 10px;
-    border: 1px solid #333842;
+    border: 1px solid #3A4F74;
     padding: 12px 18px;
     font-size: 14px;
 }
@@ -34,7 +34,7 @@ QToolButton {
     background-color: #1c314d;
     color: #E6E6E6;
     border-radius: 10px;
-    border: 1px solid #333842;
+    border: 1px solid #3A4F74;
     padding: 12px 18px;
     font-size: 14px;
 }
@@ -50,7 +50,7 @@ QToolButton:checked {
 QFrame#statusFrame {
     background-color: #1c314d;
     border-radius: 10px;
-    border: 1px solid #2E3440;
+    border: 1px solid #3A4F74;
 }
 
 QLabel#statusFrame_output{
@@ -66,7 +66,7 @@ QLabel#statusFrame_time{
 QFrame#topFrame_positionFrame {
     background-color: #1c314d;
     border-radius: 10px;
-    border: 1px solid #2E3440;
+    border: 1px solid #3A4F74;
 }
 
 QLabel#positionFrame_positionLabel {
@@ -130,7 +130,7 @@ QFrame#line_2 {
 QFrame#topFrame_spindleFrame {
     background-color: #1c314d;
     border-radius: 10px;
-    border: 1px solid #2E3440;
+    border: 1px solid #3A4F74;
 }
 
 QLabel#spindleFrame_rpm{
@@ -167,7 +167,7 @@ QLabel#spindleFrame_loadValue {
 QFrame#topFrame_feedrateFrame {
     background-color: #1c314d;
     border-radius: 10px;
-    border: 1px solid #2E3440;
+    border: 1px solid #3A4F74;
 }
 
 QLabel#feedrateFrame_feedrate{
@@ -193,8 +193,8 @@ QToolButton#menuPage_machineButton{
     qproperty-iconSize: 128px;
 }
 
-QToolButton#menuPage_projectsButton{
-    qproperty-icon: url(../assets/projects.svg);
+QToolButton#menuPage_workpiecesButton{
+    qproperty-icon: url(../assets/workpieces.svg);
     qproperty-iconSize: 128px;
 }
 
@@ -244,7 +244,7 @@ QToolButton#bottomFrame_lightButton{
 QFrame#sortFrame {
     background-color: #1c314d;
     border-radius: 10px;
-    border: 1px solid #2E3440;
+    border: 1px solid #3A4F74;
 }
 
 QLabel#sortLabel {
@@ -289,7 +289,7 @@ QComboBox#sortComboBox::down-arrow {
 QFrame#toolDetailPage_infoFrame{
     background-color: #1c314d;
     border-radius: 10px;
-    border: 1px solid #2E3440;
+    border: 1px solid #3A4F74;
 }
 
 QToolButton#toolDetailPage_saveButton{
@@ -307,13 +307,13 @@ QToolButton#toolDetailPage_saveButton:pressed {
 QFrame#toolDetailPage_renderFrame{
     background-color: #1c314d;
     border-radius: 10px;
-    border: 1px solid #2E3440;
+    border: 1px solid #3A4F74;
 }
 
 QFrame#toolDetailPage_descriptionFrame{
     background-color: #1c314d;
     border-radius: 10px;
-    border: 1px solid #2E3440;
+    border: 1px solid #3A4F74;
 }
 
 QPlainTextEdit#toolDetailPage_descriptionPlainTextEdit{
@@ -391,21 +391,38 @@ QPushButton#confirmDeleteTool_cancel_button{
 
 QToolButton#manual_mode_button:checked{
     color: orange;
-    border: 1px solid #2E3440;
+    border: 1px solid #3A4F74;
     font-weight: bold;
 }
 QToolButton#auto_mode_button:checked{
     color: orange;
-    border: 1px solid #2E3440;
+    border: 1px solid #3A4F74;
     font-weight: bold;
 }
 QToolButton#manual_mode_button{
     color: #E6E6E6;
     font-weight: bold;
-    border: 1px solid #2E3440;
+    border: 1px solid #3A4F74;
 }
 QToolButton#auto_mode_button{
     color: #E6E6E6;
     font-weight: bold;
-    border: 1px solid #2E3440;
+    border: 1px solid #3A4F74;
+}
+
+
+QPlainTextEdit#projectDetailPage_descriptionTextEdit{
+    color: #E6E6E6;
+    font-size: 14px;
+    background-color: #1c314d;
+    border-radius: 10px;
+    border: 1px solid #3A4F74;
+}
+
+QFrame#kanban_container{
+    color: #E6E6E6;
+    font-size: 14px;
+    background-color: #1c314d;
+    border-radius: 10px;
+    border: 1px solid #3A4F74;
 }

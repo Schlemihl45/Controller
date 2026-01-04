@@ -1,11 +1,11 @@
 import sqlite3
 from pathlib import Path
 from datetime import datetime
-from database.project_model import Project
+from database.workpiece_model import Workpiece
 
 BASE_DIR = Path(__file__).parent.parent
 DB_PATH = BASE_DIR / "database" / "database.db"
-PROJECTS_ROOT = BASE_DIR.parent / "projects"
+WORKPIECES_ROOT = BASE_DIR.parent / "workpieces"
 
 
 class Database:
@@ -44,7 +44,7 @@ class Database:
             """)
 
             cursor.execute("""
-            CREATE TABLE IF NOT EXISTS projects (
+            CREATE TABLE IF NOT EXISTS workpieces (
                 name TEXT PRIMARY KEY NOT NULL,
                 path TEXT NOT NULL,
                 description TEXT,
@@ -55,10 +55,10 @@ class Database:
             cursor.execute("""
             CREATE TABLE IF NOT EXISTS gcodes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                project_name TEXT NOT NULL,
+                workpiece_name TEXT NOT NULL,
                 filename TEXT NOT NULL,
                 tool_used TEXT,
-                FOREIGN KEY (project_name) REFERENCES projects(name)
+                FOREIGN KEY (workpiece_name) REFERENCES workpieces(name)
             )
             """)
 
@@ -79,6 +79,7 @@ class Database:
             cursor = conn.cursor()
             cursor.execute(query)
             return cursor.fetchall()
+
     def add_tool(self, tool_data: tuple):
         query = """
             INSERT INTO tools (name, type, diameter, radius,
@@ -121,7 +122,6 @@ class Database:
                       flutes, zOffset, rOffset, supplier, description, tool_id))
                 print(f"Tool '{name}' updated.")
                 return tool_id
-
             else:
                 cursor.execute("""
                     INSERT INTO tools (name,type,diameter,radius,
@@ -134,7 +134,6 @@ class Database:
                 return new_id
 
     def delete_tool(self, id_: int) -> bool:
-        """Löscht ein Werkzeug nach ID. Gibt True zurück wenn gelöscht."""
         with self._connect() as conn:
             cursor = conn.cursor()
 
@@ -147,57 +146,51 @@ class Database:
 
             cursor.execute("DELETE FROM tools WHERE id=?", (id_,))
             print(f"Tool '{result[0]}' deleted.")
-
             return True
+
     # ---------------------------------------------------------
-    # Projekte synchronisieren mit Dateisystem
+    # Workpieces synchronisieren mit Dateisystem
     # ---------------------------------------------------------
     def sync_with_filesystem(self):
-        """Synchronisiert DB-Einträge mit vorhandenen Projektordnern."""
-        PROJECTS_ROOT.mkdir(parents=True, exist_ok=True)
-        existing_folders = {p for p in PROJECTS_ROOT.iterdir() if p.is_dir()}
+        WORKPIECES_ROOT.mkdir(parents=True, exist_ok=True)
+        existing_folders = {p for p in WORKPIECES_ROOT.iterdir() if p.is_dir()}
 
         with self._connect() as conn:
             cur = conn.cursor()
-            cur.execute("SELECT name FROM projects")
-            db_projects = {row[0] for row in cur.fetchall()}
+            cur.execute("SELECT name FROM workpieces")
+            db_workpieces = {row[0] for row in cur.fetchall()}
 
-            new_projects = [f for f in existing_folders if f.name not in db_projects]
-            removed_projects = [n for n in db_projects if n not in {f.name for f in existing_folders}]
+            new_workpieces = [f for f in existing_folders if f.name not in db_workpieces]
+            removed_workpieces = [n for n in db_workpieces if n not in {f.name for f in existing_folders}]
 
-            # Neue hinzufügen + JSON erzeugen falls nötig
-            for folder in new_projects:
-                proj_obj = Project.load_from_json(folder)
-
+            for folder in new_workpieces:
+                wp_obj = Workpiece.load_from_json(folder)
                 json_file = folder / f"{folder.name}.json"
-
-                proj_obj.save_to_json(json_file)  # schreibt Datei mit Zeitpunkten
+                wp_obj.save_to_json(json_file)
 
                 cur.execute("""
-                    INSERT INTO projects (name,path,description,json_path)
+                    INSERT INTO workpieces (name,path,description,json_path)
                     VALUES (?, ?, ?, ?);
-                    """, (proj_obj.name, str(proj_obj.path), proj_obj.description, str(json_file)))
+                """, (wp_obj.name, str(wp_obj.path), wp_obj.description, str(json_file)))
 
-            # Nicht mehr existierende löschen
-            for obsolete_name in removed_projects:
-                cur.execute("DELETE FROM projects WHERE name=?", (obsolete_name,))
+            for obsolete_name in removed_workpieces:
+                cur.execute("DELETE FROM workpieces WHERE name=?", (obsolete_name,))
 
             conn.commit()
 
-        # ---------------------------------------------------------
-        # Projekte laden + fehlende JSON erzeugen falls nötig
-        # ---------------------------------------------------------
-
-    def load_projects(self, order_by: str = "name"):
-        PROJECTS_ROOT.mkdir(parents=True, exist_ok=True)
+    # ---------------------------------------------------------
+    # Workpieces laden
+    # ---------------------------------------------------------
+    def load_workpieces(self, order_by: str = "name"):
+        WORKPIECES_ROOT.mkdir(parents=True, exist_ok=True)
 
         with self._connect() as conn:
             cur = conn.cursor()
-            cur.execute("SELECT name,path,description,json_path FROM projects ORDER BY name ASC")
+            cur.execute("SELECT name,path,description,json_path FROM workpieces ORDER BY name ASC")
             rows = cur.fetchall()
             db_names = {r[0] for r in rows}
 
-        folders = [f for f in PROJECTS_ROOT.iterdir() if f.is_dir()]
+        folders = [f for f in WORKPIECES_ROOT.iterdir() if f.is_dir()]
 
         with self._connect() as conn:
             cur = conn.cursor()
@@ -206,30 +199,31 @@ class Database:
                 json_file = folder / f"{folder.name}.json"
 
                 if folder.name not in db_names:
-                    print(f"Adding missing project '{folder.name}' to database.")
-                    proj_obj = Project(
-                        name=folder.name, path=folder, description="", stats={})
-                    proj_obj.save_to_json(json_file)
+                    wp_obj = Workpiece(
+                        name=folder.name, path=folder, description="", stats={}
+                    )
+                    wp_obj.save_to_json(json_file)
                     cur.execute("""
-                         INSERT INTO projects (name,path,description,json_path)
-                         VALUES (?, ?, ?, ?);
-                     """, (proj_obj.name, str(proj_obj.path), proj_obj.description, str(json_file)))
+                        INSERT INTO workpieces (name,path,description,json_path)
+                        VALUES (?, ?, ?, ?);
+                    """, (wp_obj.name, str(wp_obj.path), wp_obj.description, str(json_file)))
 
                 elif not json_file.exists():
-                    print(f"Creating missing JSON file for project '{folder.name}'.")
-                    proj_obj = Project.load_from_json(folder)
-                    proj_obj.save_to_json(json_file)
-                    cur.execute("UPDATE projects SET json_path=? WHERE name=?",
-                                (str(json_file), folder.name))
+                    wp_obj = Workpiece.load_from_json(folder)
+                    wp_obj.save_to_json(json_file)
+                    cur.execute(
+                        "UPDATE workpieces SET json_path=? WHERE name=?",
+                        (str(json_file), folder.name)
+                    )
 
             conn.commit()
 
         with self._connect() as conn:
             cur = conn.cursor()
-            cur.execute("SELECT name,path,json_path FROM projects ORDER BY name ASC")
+            cur.execute("SELECT name,path,json_path FROM workpieces ORDER BY name ASC")
             rows = cur.fetchall()
 
         return [
-            Project.load_from_json(Path(row[1]), Path(row[2]))
+            Workpiece.load_from_json(Path(row[1]), Path(row[2]))
             for row in rows
         ]

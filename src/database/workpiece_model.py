@@ -6,17 +6,20 @@ from typing import Optional
 
 
 @dataclass
-class Project:
+class Workpiece:
     name: str
     path: Path
     description: str = ""
     stats: Optional[dict] = None
 
+    kanban_current: int = 0
+    kanban_total: int = 0
+
     created_at: Optional[str] = None
     last_modified: Optional[str] = None
 
     def save_to_json(self, json_file: Optional[Path] = None) -> None:
-        """Speichert Projektdaten als JSON-Datei im Projektordner."""
+        """Speichert Werkstückdaten als JSON-Datei im Werkstückordner."""
         if json_file is None:
             json_file = self.path / f"{self.path.name}.json"
 
@@ -32,11 +35,11 @@ class Project:
         with open(json_file, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
 
-        print(f"Saved project JSON at {json_file}")
+        print(f"Saved workpiece JSON at {json_file}")
 
     @classmethod
-    def load_from_json(cls, folder: Path, json_file: Optional[Path] = None) -> "Project":
-        """Lädt ein Projekt aus seiner JSON-Datei oder erstellt ein neues."""
+    def load_from_json(cls, folder: Path, json_file: Optional[Path] = None) -> "Workpiece":
+        """Lädt ein Werkstück aus seiner JSON-Datei oder erstellt ein neues."""
         if json_file is None:
             json_file = folder / f"{folder.name}.json"
 
@@ -51,6 +54,8 @@ class Project:
             path=Path(data.get("path", folder)),
             description=data.get("description", ""),
             stats=data.get("stats"),
+            kanban_current=data.get("kanban_current", 0),
+            kanban_total=data.get("kanban_total", 0),
             created_at=data.get("created_at"),
             last_modified=data.get("last_modified"),
         )

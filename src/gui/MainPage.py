@@ -11,8 +11,8 @@ from gui.MakeTouchButton import make_touch_button
 from gui.toolspage.ToolsPage import ToolsPage
 from gui.toolspage.ToolDetailPage import ToolDetailPage
 from gui.machinepage.MachinePage import MachinePage
-from gui.projectspage.ProjectsPage import ProjectsPage
-from gui.projectspage.ProjectDetailPage import ProjectDetailPage
+from gui.workpiecespage.WorkpiecesPage import WorkpiecesPage
+from gui.workpiecespage.WorkpieceDetailPage import WorkpieceDetailPage
 import random
 
 from pathlib import Path
@@ -60,10 +60,10 @@ class MainPage(QMainWindow):
         self.centralFrame_stackedWidget.addWidget(self.toolDetailPage)
 
         self.toolsPage.openToolDetail.connect(self.openToolDetailPage)
-        self.projectsPage = ProjectsPage(self)
-        self.centralFrame_stackedWidget.addWidget(self.projectsPage)
+        self.workpiecesPage = WorkpiecesPage(self)
+        self.centralFrame_stackedWidget.addWidget(self.workpiecesPage)
 
-        self.projectsPage.openProjectDetails.connect(self.openProjectDetails)
+        self.workpiecesPage.openWorkpieceDetails.connect(self.openWorkpieceDetails)
         # Status frame
         self.status_time = self.ui.findChild(QLabel, "statusFrame_time")
         self.status_output = self.ui.findChild(QLabel, "statusFrame_output")
@@ -86,8 +86,8 @@ class MainPage(QMainWindow):
         self.menu_machine_button = self.ui.findChild(QToolButton, "menuPage_machineButton")
         self.menu_machine_button.clicked.connect(self.open_MachinePage)
 
-        self.menu_projects_button = self.ui.findChild(QToolButton, "menuPage_projectsButton")
-        self.menu_projects_button.clicked.connect(self.open_projectsPage)
+        self.menu_workpieces_button = self.ui.findChild(QToolButton, "menuPage_workpiecesButton")
+        self.menu_workpieces_button.clicked.connect(self.open_workpiecesPage)
         self.menu_tools_button = self.ui.findChild(QToolButton, "menuPage_toolsButton")
         self.menu_tools_button.clicked.connect(self.open_toolsPage)
         self.menu_settings_button = self.ui.findChild(QToolButton, "menuPage_settingsButton")
@@ -124,7 +124,7 @@ class MainPage(QMainWindow):
         load = random.uniform(0, 150)  # Spindellast in %
 
         self.spindle_rpm.setText(f"{rpm}")
-        self.update_spindle_load(load)  # nutzt deine bestehende Methode
+        self.update_spindle_load(load)
 
         # Zufällige Feedrate
         feedrate = random.uniform(0, 12500)  # mm/min
@@ -132,13 +132,13 @@ class MainPage(QMainWindow):
         self.set_status_led("orange")
         self.setup_status_time()
 
-    def openProjectDetails(self, project):
-        print(project)
+    def openWorkpieceDetails(self, workpiece):
+        print(workpiece)
 
-        self.projectDetailPage = ProjectDetailPage(self, project)
-        self.centralFrame_stackedWidget.addWidget(self.projectDetailPage)
-        self.centralFrame_stackedWidget.setCurrentWidget(self.projectDetailPage)
-        self.lastPage = self.projectsPage
+        self.workpieceDetailPage = WorkpieceDetailPage(self, workpiece)
+        self.centralFrame_stackedWidget.addWidget(self.workpieceDetailPage)
+        self.centralFrame_stackedWidget.setCurrentWidget(self.workpieceDetailPage)
+        self.lastPage = self.workpiecesPage
 
     def refresh_tools_list(self):
         """
@@ -170,9 +170,9 @@ class MainPage(QMainWindow):
             self.lastPage = self.centralFrame_menuPage
             self.toolsPage.load_tools()
 
-        if self.lastPage == self.projectsPage:
+        if self.lastPage == self.workpiecesPage:
             self.lastPage = self.centralFrame_menuPage
-            self.projectsPage.load_projects()
+            self.workpiecesPage.load_workpieces()
 
 
     def open_toolsPage(self):
@@ -181,42 +181,25 @@ class MainPage(QMainWindow):
         self.centralFrame_stackedWidget.setCurrentWidget(self.toolsPage)
 
 
-    def open_projectsPage(self):
+    def open_workpiecesPage(self):
         self.lastPage = self.centralFrame_stackedWidget.currentWidget()
-        self.centralFrame_stackedWidget.setCurrentWidget(self.projectsPage)
+        self.centralFrame_stackedWidget.setCurrentWidget(self.workpiecesPage)
     # Status output
     def output(self, text: str):
-        """
-        Sets the displayed text in the status output
-
-        Args:
-            text (str): The text to be displayed
-        """
         self.status_output.setText(text)
 
     # Sets up and updates the time
     def setup_status_time(self):
-        """
-        Starts an QTimer for the status time and connects with the status time update
-        """
         self.time_timer = QTimer(self)
         self.time_timer.timeout.connect(self.update_status_time)
         self.time_timer.start(1000)
 
     def update_status_time(self):
-        """
-        Updates the status time
-        """
         current_time = QTime.currentTime().toString("HH:mm:ss")
         self.status_time.setText(current_time)
 
     # Changes the color of the status LED
     def set_status_led(self, color: str):
-        """
-        Sets the color of the status LED
-        Args:
-            color (str): The color of the LED
-        """
         self.status_LED.setStyleSheet(f"""
             background-color: {color};
             border-radius: 8px;
@@ -250,9 +233,6 @@ class MainPage(QMainWindow):
 
     # Update spindle load bar and value
     def update_spindle_load(self, load_percent: float):
-        """
-        Updates the spindle load visuals
-        """
         bar = self.spindleFrame_load_bar
         value = self.spindleFrame_load_value
 
