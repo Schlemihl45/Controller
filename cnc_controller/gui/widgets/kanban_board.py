@@ -1,33 +1,14 @@
-from PySide6.QtWidgets import QWidget, QFrame, QDialogButtonBox, QHBoxLayout, QLabel, QToolButton, QLineEdit, QFormLayout, QPushButton, QSizePolicy, QDialog, QVBoxLayout, QVBoxLayout
+from PySide6.QtWidgets import (
+    QWidget, QFrame, QDialogButtonBox, QHBoxLayout, QLabel, QToolButton,
+    QLineEdit, QFormLayout, QPushButton, QSizePolicy, QDialog, QVBoxLayout,
+)
 from PySide6.QtCore import Qt, QTimer, QMimeData, QByteArray, QPointF, QSize
 from PySide6.QtGui import QDrag, QIcon, QMouseEvent, QColor
 import json
-
-from gui.scrollWidget import ScrollWidget
-from database.workpiece_model import Workpiece
-
 from pathlib import Path
 
-from PySide6.QtWidgets import (
-    QWidget,
-    QFrame,
-    QHBoxLayout,
-    QLabel,
-    QToolButton,
-    QSizePolicy,
-)
-from PySide6.QtCore import (
-    Qt,
-    QTimer,
-    QMimeData,
-    QByteArray,
-    QPointF,
-    QSize,
-)
-from PySide6.QtGui import QDrag, QIcon
-import json
-
-from gui.scrollWidget import ScrollWidget
+from gui.widgets.scroll_widget import ScrollWidget
+from database.workpiece_model import Workpiece
 
 
 class KanbanCard(QFrame):
@@ -70,7 +51,6 @@ class KanbanCard(QFrame):
         self.counter_label = QPushButton(self)
         self.counter_label.setStyleSheet("color: #E6E6E6; font-weight: bold;")
         self.counter_label.clicked.connect(self.counter_clicked)
-        self.layout().addWidget(self.counter_label)
         layout.addWidget(self.counter_label)
 
         delete_btn = QToolButton()
@@ -139,6 +119,7 @@ class KanbanCard(QFrame):
                 new_total = int(total_edit.text())
             except ValueError:
                 dialog.reject()
+                return
 
             self.current_count = new_current
             self.total_count = new_total

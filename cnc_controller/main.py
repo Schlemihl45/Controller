@@ -1,10 +1,13 @@
 import sys
-import sqlite3
 from pathlib import Path
-from PySide6.QtWidgets import QApplication
-from gui.MainPage import MainPage
 
-from database.databaseManager import Database
+# Ensure cnc_controller/ is on the path regardless of working directory
+sys.path.insert(0, str(Path(__file__).parent))
+
+from PySide6.QtWidgets import QApplication
+from gui.main_page import MainPage
+from database.db_manager import Database
+
 
 def main():
     """
@@ -22,16 +25,12 @@ def main():
     window = MainPage()
 
     # Load stylesheet
-    qss_path = Path(__file__).parent / "gui" / "stylesheet.qss"
+    qss_path = Path(__file__).parent.parent / "themes" / "stylesheet.qss"
     if qss_path.exists():
         with open(qss_path, "r") as f:
             app.setStyleSheet(f.read())
     else:
         print(f"Stylesheet not found at {qss_path}")
-
-    # Print current working directory for debugging
-    import os
-    print("Current Working Directory:", os.getcwd())
 
     # Show main window
     window.show()

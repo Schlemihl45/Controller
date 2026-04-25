@@ -1,20 +1,18 @@
 # gui/pages/tools_page.py
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QGridLayout, QToolButton, QPushButton, QComboBox
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QSizePolicy
+from PySide6.QtWidgets import (
+    QWidget, QHBoxLayout, QGridLayout, QToolButton, QPushButton, QComboBox,
+    QSizePolicy, QFrame, QLabel, QVBoxLayout,
+)
+from PySide6.QtCore import Qt, Signal, QSize
 from PySide6.QtGui import QIcon
-from PySide6.QtCore import QSize
 from pathlib import Path
 import sqlite3
 
-DB_PATH = Path(__file__).parent.parent / "database.db"
+from database.db_manager import Database
+from gui.widgets.scroll_widget import ScrollWidget
+from gui.widgets.touch_button import make_touch_button
 
-from database.databaseManager import Database
-
-from gui.scrollWidget import ScrollWidget
-from gui.MakeTouchButton import make_touch_button
-from PySide6.QtWidgets import QFrame, QLabel, QVBoxLayout
-from PySide6.QtCore import Signal, Qt
+DB_PATH = Path(__file__).parent.parent.parent / "database" / "database.db"
 
 
 class ToolsFrame(QFrame):

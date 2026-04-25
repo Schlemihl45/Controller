@@ -1,23 +1,15 @@
-from PySide6.QtWidgets import QWidget, QToolButton, QVBoxLayout, QLineEdit, QPushButton, QPlainTextEdit, QLabel, QComboBox
+from PySide6.QtWidgets import (
+    QWidget, QToolButton, QVBoxLayout, QLineEdit, QPushButton,
+    QPlainTextEdit, QLabel, QComboBox, QMessageBox,
+)
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtCore import QFile
-from pathlib import Path
-from PySide6.QtGui import QIcon
-from PySide6.QtCore import Signal
-from PySide6.QtCore import QSize, Qt
-from PySide6.QtWidgets import QMessageBox
-
-from PySide6.QtGui import QIntValidator, QDoubleValidator
-
-from gui.toolspage.ToolInputWidget import ToolInputWidget
-from gui.MakeTouchButton import make_touch_button
-
-from database.databaseManager import Database
-
-import sqlite3
+from PySide6.QtCore import QFile, Signal, QSize, Qt
+from PySide6.QtGui import QIcon, QIntValidator, QDoubleValidator
 from pathlib import Path
 
-DB_PATH = Path(__file__).parent.parent / "database.db"
+from gui.pages.tool_input_widget import ToolInputWidget
+from gui.widgets.touch_button import make_touch_button
+from database.db_manager import Database
 
 
 class ToolDetailPage(QWidget):
@@ -41,7 +33,7 @@ class ToolDetailPage(QWidget):
 
         # Load UI file
         loader = QUiLoader()
-        ui_path = Path(__file__).parent / "ToolDetailPage.ui"
+        ui_path = Path(__file__).parent / "tool_detail_page.ui"
         ui_file = QFile(str(ui_path))
         if not ui_file.open(QFile.ReadOnly):
             raise IOError(f"Cannot open {ui_path}")

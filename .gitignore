@@ -1,0 +1,19 @@
+# Runtime data – never commit
+workpieces/
+projects/
+*.db
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+dist/
+build/
+*.egg-info/
+
+# IDE
+.idea/
+.vscode/
+*.swp

@@ -1,21 +1,22 @@
 import os
-from PySide6.QtWidgets import QMainWindow, QPushButton, QToolButton, QProgressBar, QLabel, QFrame, QStackedWidget, QWidget
+from PySide6.QtWidgets import (
+    QMainWindow, QPushButton, QToolButton, QProgressBar,
+    QLabel, QFrame, QStackedWidget, QWidget,
+)
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtCore import QFile, QSize, Qt
+from PySide6.QtCore import QFile, QSize, Qt, QTimer, QTime
 from PySide6.QtGui import QIcon
-from PySide6.QtCore import QTimer, QTime
-
-from gui.scrollWidget import ScrollWidget
-from gui.MakeTouchButton import make_touch_button
-
-from gui.toolspage.ToolsPage import ToolsPage
-from gui.toolspage.ToolDetailPage import ToolDetailPage
-from gui.machinepage.MachinePage import MachinePage
-from gui.workpiecespage.WorkpiecesPage import WorkpiecesPage
-from gui.workpiecespage.WorkpieceDetailPage import WorkpieceDetailPage
 import random
-
 from pathlib import Path
+
+from gui.widgets.scroll_widget import ScrollWidget
+from gui.widgets.touch_button import make_touch_button
+from gui.pages.tools_page import ToolsPage
+from gui.pages.tool_detail_page import ToolDetailPage
+from gui.pages.machine_page import MachinePage
+from gui.pages.workpieces_page import WorkpiecesPage
+from gui.pages.workpiece_detail_page import WorkpieceDetailPage
+
 
 class MainPage(QMainWindow):
     """
@@ -27,7 +28,7 @@ class MainPage(QMainWindow):
         # Loading the UI file
         loader = QUiLoader()
 
-        ui_path = Path(__file__).parent / "MainPage.ui"
+        ui_path = Path(__file__).parent / "main_page.ui"
         ui_file = QFile(str(ui_path))
         if not ui_file.open(QFile.ReadOnly):
             raise IOError(f"Cannot open {ui_path}")

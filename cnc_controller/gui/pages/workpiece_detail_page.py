@@ -11,7 +11,7 @@ from PySide6.QtGui import QIcon
 from pathlib import Path
 
 from database.workpiece_model import Workpiece
-from gui.scrollWidget import ScrollWidget
+from gui.widgets.scroll_widget import ScrollWidget
 
 
 class FileFrame(QFrame):
@@ -54,7 +54,7 @@ class WorkpieceDetailPage(QWidget):
 
         # Load the .ui
         loader = QUiLoader()
-        ui_path = Path(__file__).parent / "WorkpieceDetailPage.ui"
+        ui_path = Path(__file__).parent / "workpiece_detail_page.ui"
         ui_file = QFile(str(ui_path))
         if not ui_file.open(QFile.ReadOnly):
             raise IOError(f"Cannot open {ui_path}")

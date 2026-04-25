@@ -19,10 +19,10 @@ from PySide6.QtCore import (
 from PySide6.QtGui import QIcon, QDrag
 import json
 
-from gui.scrollWidget import ScrollWidget
-from database.databaseManager import Database
+from gui.widgets.scroll_widget import ScrollWidget
+from database.db_manager import Database
 from database.workpiece_model import Workpiece
-from gui.KanbanBoard import KanbanBoard
+from gui.widgets.kanban_board import KanbanBoard
 
 
 class WorkpieceFrame(QFrame):

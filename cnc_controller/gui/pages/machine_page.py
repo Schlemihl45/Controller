@@ -14,7 +14,7 @@ class MachinePage(QWidget):
         super().__init__()
 
         loader = QUiLoader()
-        ui_path = Path(__file__).parent / "MachinePage.ui"
+        ui_path = Path(__file__).parent / "machine_page.ui"
         ui_file = QFile(str(ui_path))
         if not ui_file.open(QFile.ReadOnly):
             raise IOError(f"Cannot open {ui_path}")
