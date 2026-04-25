@@ -326,6 +326,9 @@ class MainPage(QMainWindow):
     # ── Slots ────────────────────────────────────────────────────────────
 
     def openWorkpieceDetails(self, workpiece) -> None:
+        if hasattr(self, "workpieceDetailPage") and self.workpieceDetailPage is not None:
+            self.centralFrame_stackedWidget.removeWidget(self.workpieceDetailPage)
+            self.workpieceDetailPage.deleteLater()
         self.workpieceDetailPage = WorkpieceDetailPage(self, workpiece)
         self.centralFrame_stackedWidget.addWidget(self.workpieceDetailPage)
         self.centralFrame_stackedWidget.setCurrentWidget(self.workpieceDetailPage)
@@ -353,6 +356,9 @@ class MainPage(QMainWindow):
         supplier="",
         description="",
     ) -> None:
+        if hasattr(self, "toolDetailPage") and self.toolDetailPage is not None:
+            self.centralFrame_stackedWidget.removeWidget(self.toolDetailPage)
+            self.toolDetailPage.deleteLater()
         self.toolDetailPage = ToolDetailPage(
             tool_id, name, tool_type, diameter, radius,
             cutting_length, length, flutes, zOffset, rOffset,

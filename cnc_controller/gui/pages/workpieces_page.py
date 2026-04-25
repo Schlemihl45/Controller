@@ -146,6 +146,7 @@ class WorkpiecesPage(QWidget):
         super().__init__(parent)
 
         self.repo = Database()
+        self.repo.initialize()
 
         self.main_layout = QVBoxLayout(self)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
@@ -202,8 +203,6 @@ class WorkpiecesPage(QWidget):
         self.load_workpieces()
 
     def load_workpieces(self):
-        """Workpieces aus Datenbank laden und anzeigen."""
-        self.repo.initialize()
         self.repo.sync_with_filesystem()
 
         workpieces = self.repo.load_workpieces(order_by="name")
