@@ -1,15 +1,16 @@
-from PySide6.QtWidgets import (
-    QWidget, QToolButton, QVBoxLayout, QLineEdit, QPushButton,
-    QPlainTextEdit, QLabel, QComboBox, QMessageBox,
-)
-from PySide6.QtUiTools import QUiLoader
-from PySide6.QtCore import QFile, Signal, QSize, Qt
-from PySide6.QtGui import QIcon, QIntValidator, QDoubleValidator
 from pathlib import Path
 
+from PySide6.QtCore import QFile, Signal
+from PySide6.QtGui import QDoubleValidator, QIntValidator
+from PySide6.QtUiTools import QUiLoader
+from PySide6.QtWidgets import (
+    QComboBox, QLineEdit, QMessageBox, QPlainTextEdit,
+    QPushButton, QToolButton, QVBoxLayout, QWidget,
+)
+
+from database.db_manager import Database
 from gui.pages.tool_input_widget import ToolInputWidget
 from gui.widgets.touch_button import make_touch_button
-from database.db_manager import Database
 
 ASSETS_DIR = Path(__file__).parent.parent.parent.parent / "assets"
 

@@ -1,7 +1,8 @@
-from PySide6.QtWidgets import QWidget, QPushButton, QStackedWidget, QToolButton, QVBoxLayout, QHBoxLayout, QLabel, QSizePolicy
-from PySide6.QtUiTools import QUiLoader
-from PySide6.QtCore import QFile, Qt, QEvent
 from pathlib import Path
+
+from PySide6.QtCore import QEvent, QFile, Qt
+from PySide6.QtUiTools import QUiLoader
+from PySide6.QtWidgets import QSizePolicy, QStackedWidget, QToolButton, QVBoxLayout, QWidget
 
 
 class MachinePage(QWidget):

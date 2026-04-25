@@ -1,14 +1,16 @@
-from PySide6.QtWidgets import (
-    QWidget, QFrame, QDialogButtonBox, QHBoxLayout, QLabel, QToolButton,
-    QLineEdit, QFormLayout, QPushButton, QSizePolicy, QDialog, QVBoxLayout,
-)
-from PySide6.QtCore import Qt, QTimer, QMimeData, QByteArray, QPointF, QSize
-from PySide6.QtGui import QDrag, QIcon, QMouseEvent, QColor
-import json
 from pathlib import Path
+import json
 
-from gui.widgets.scroll_widget import ScrollWidget
+from PySide6.QtCore import Qt, QTimer, QMimeData, QByteArray, QPointF, QSize
+from PySide6.QtGui import QColor, QDrag, QIcon
+from PySide6.QtWidgets import (
+    QDialog, QDialogButtonBox, QFormLayout, QFrame, QHBoxLayout,
+    QLabel, QLineEdit, QPushButton, QSizePolicy, QToolButton,
+    QVBoxLayout, QWidget,
+)
+
 from database.workpiece_model import Workpiece
+from gui.widgets.scroll_widget import ScrollWidget
 
 ASSETS_DIR = Path(__file__).parent.parent.parent.parent / "assets"
 

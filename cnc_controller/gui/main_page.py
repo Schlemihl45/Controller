@@ -1,12 +1,13 @@
-from PySide6.QtWidgets import (
-    QMainWindow, QPushButton, QToolButton, QProgressBar,
-    QLabel, QFrame, QStackedWidget, QWidget,
-)
-from PySide6.QtUiTools import QUiLoader
-from PySide6.QtCore import QFile, QSize, Qt, QTimer, QTime
-from PySide6.QtGui import QIcon
-import random
 from pathlib import Path
+import random
+
+from PySide6.QtCore import QFile, Qt, QTimer, QTime
+from PySide6.QtGui import QIcon
+from PySide6.QtUiTools import QUiLoader
+from PySide6.QtWidgets import (
+    QFrame, QLabel, QMainWindow, QProgressBar,
+    QStackedWidget, QToolButton, QWidget,
+)
 
 ASSETS_DIR = Path(__file__).parent.parent.parent / "assets"
 

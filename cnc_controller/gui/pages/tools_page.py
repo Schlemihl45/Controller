@@ -1,16 +1,15 @@
-# gui/pages/tools_page.py
-from PySide6.QtWidgets import (
-    QWidget, QHBoxLayout, QGridLayout, QToolButton, QPushButton, QComboBox,
-    QSizePolicy, QFrame, QLabel, QVBoxLayout,
-)
-from PySide6.QtCore import Qt, Signal, QSize
-from PySide6.QtGui import QIcon
 from pathlib import Path
 import sqlite3
 
+from PySide6.QtCore import Qt, Signal, QSize
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import (
+    QComboBox, QFrame, QGridLayout, QHBoxLayout, QLabel,
+    QPushButton, QSizePolicy, QToolButton, QVBoxLayout, QWidget,
+)
+
 from database.db_manager import Database
 from gui.widgets.scroll_widget import ScrollWidget
-from gui.widgets.touch_button import make_touch_button
 
 ASSETS_DIR = Path(__file__).parent.parent.parent.parent / "assets"
 DB_PATH = Path(__file__).parent.parent.parent / "database" / "database.db"

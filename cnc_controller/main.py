@@ -1,12 +1,12 @@
 import sys
 from pathlib import Path
 
-# Ensure cnc_controller/ is on the path regardless of working directory
 sys.path.insert(0, str(Path(__file__).parent))
 
 from PySide6.QtWidgets import QApplication
-from gui.main_page import MainPage
+
 from database.db_manager import Database
+from gui.main_page import MainPage
 
 
 def main():

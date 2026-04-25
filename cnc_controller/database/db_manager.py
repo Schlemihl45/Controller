@@ -1,6 +1,7 @@
 import sqlite3
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+
 from database.workpiece_model import Workpiece
 
 BASE_DIR = Path(__file__).parent.parent

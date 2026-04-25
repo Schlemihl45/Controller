@@ -1,14 +1,8 @@
-from PySide6.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QLabel,
-    QToolButton,
-    QFrame,
-)
-from PySide6.QtUiTools import QUiLoader
-from PySide6.QtCore import QFile, Qt
-from PySide6.QtGui import QIcon
 from pathlib import Path
+
+from PySide6.QtCore import QFile, Qt
+from PySide6.QtUiTools import QUiLoader
+from PySide6.QtWidgets import QFrame, QLabel, QToolButton, QVBoxLayout, QWidget
 
 from database.workpiece_model import Workpiece
 from gui.widgets.scroll_widget import ScrollWidget
