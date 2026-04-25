@@ -216,7 +216,7 @@ class ToolsPage(QWidget):
 
     def sort_tools(self, key):
         if not DB_PATH.exists():
-            print("Database does not exist:", DB_PATH)
+            return
 
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()

@@ -35,8 +35,6 @@ class Workpiece:
         with open(json_file, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
 
-        print(f"Saved workpiece JSON at {json_file}")
-
     @classmethod
     def load_from_json(cls, folder: Path, json_file: Optional[Path] = None) -> "Workpiece":
         """Lädt ein Werkstück aus seiner JSON-Datei oder erstellt ein neues."""

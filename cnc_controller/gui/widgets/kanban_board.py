@@ -129,7 +129,7 @@ class KanbanCard(QFrame):
             self.total_count = new_total
 
             if hasattr(self, "workpiece") and self.workpiece is not None:
-                self.workpiece.kanban_currrent = self.current_count
+                self.workpiece.kanban_current = self.current_count
                 self.workpiece.kanban_total = self.total_count
                 self.workpiece.save_to_json()
 
@@ -139,7 +139,7 @@ class KanbanCard(QFrame):
         buttons.accepted.connect(accept_changes)
         buttons.rejected.connect(dialog.reject)
 
-        dialog.exec_()
+        dialog.exec()
 
 
 
@@ -254,16 +254,12 @@ class KanbanColumn(QFrame):
     def add_workpiece(self, wp: Workpiece):
         """Fügt ein Workpiece hinzu oder erhöht den Counter, falls es schon existiert."""
         wp = Workpiece.load_from_json(wp.path)
-        print(wp.path)
         existing_card = self.board.find_card_for_workpiece(wp)
         if existing_card:
-            # Karte existiert → Counter erhöhen, keine neue Karte
             existing_card.total_count += 1
             wp.kanban_total += 1
             wp.save_to_json()
             existing_card.set_counter(existing_card.current_count, existing_card.total_count)
-            print(
-                f"Existing card '{existing_card.name}' counter updated: {existing_card.current_count}/{existing_card.total_count}")
             return
 
         # keine Karte gefunden → neue Karte erzeugen

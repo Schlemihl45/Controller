@@ -21,7 +21,6 @@ class Database:
     # ---------------------------------------------------------
     def initialize(self):
         if not DB_PATH.exists():
-            print(f"Database not found, creating new DB at {DB_PATH}")
             conn = sqlite3.connect(DB_PATH)
             cursor = conn.cursor()
 
@@ -65,9 +64,6 @@ class Database:
 
             conn.commit()
             conn.close()
-            print("Database initialized successfully.")
-        else:
-            print(f"Database already exists at {DB_PATH}")
 
     def get_all_tools(self, order_by: str = "id"):
         query = f"""
@@ -121,7 +117,6 @@ class Database:
                     WHERE id=?
                 """, (name, type_, diameter, radius, cutting_length, length,
                       flutes, zOffset, rOffset, supplier, description, tool_id))
-                print(f"Tool '{name}' updated.")
                 return tool_id
             else:
                 cursor.execute("""
@@ -131,7 +126,6 @@ class Database:
                 """, (name, type_, diameter, radius, cutting_length, length,
                       flutes, zOffset, rOffset, supplier, description))
                 new_id = cursor.lastrowid
-                print(f"Tool '{name}' created.")
                 return new_id
 
     def delete_tool(self, id_: int) -> bool:
@@ -142,11 +136,9 @@ class Database:
             result = cursor.fetchone()
 
             if not result:
-                print(f"Tool with ID {id_} does not exist.")
                 return False
 
             cursor.execute("DELETE FROM tools WHERE id=?", (id_,))
-            print(f"Tool '{result[0]}' deleted.")
             return True
 
     # ---------------------------------------------------------

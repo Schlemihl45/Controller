@@ -105,7 +105,6 @@ class WorkpieceFrame(QFrame):
 
         drag = QDrag(self)
         mime = QMimeData()
-        print(self.workpiece.path)
         payload = {"name": self.workpiece.name,
                    "path": str(self.workpiece.path),}
         mime.setData(
@@ -113,6 +112,7 @@ class WorkpieceFrame(QFrame):
             QByteArray(json.dumps(payload).encode("utf-8")),
         )
         drag.setMimeData(mime)
+
 
         pixmap = self.grab().scaled(
             int(self.width() * 0.5),
@@ -207,7 +207,6 @@ class WorkpiecesPage(QWidget):
         self.repo.sync_with_filesystem()
 
         workpieces = self.repo.load_workpieces(order_by="name")
-        print(workpieces)
 
         frames = []
         for workpiece in workpieces:

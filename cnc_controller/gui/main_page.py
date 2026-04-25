@@ -404,14 +404,14 @@ class MainPage(QMainWindow):
         try:
             icon_name = "coolant_on.svg" if checked else "coolant_off.svg"
             self.quick_coolant_button.setIcon(QIcon(str(ASSETS_DIR / icon_name)))
-        except Exception as e:
+        except Exception:
             self.quick_coolant_button.setIcon(QIcon(str(ASSETS_DIR / "coolant_error.svg")))
 
     def toggle_light_button(self, checked: bool) -> None:
         try:
             icon_name = "light_on.svg" if checked else "light_off.svg"
             self.quick_light_button.setIcon(QIcon(str(ASSETS_DIR / icon_name)))
-        except Exception as e:
+        except Exception:
             self.quick_light_button.setIcon(QIcon(str(ASSETS_DIR / "light_error.svg")))
 
     def update_spindle_load(self, load_percent: float) -> None:
