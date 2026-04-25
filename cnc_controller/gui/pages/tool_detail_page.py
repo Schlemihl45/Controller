@@ -11,6 +11,8 @@ from gui.pages.tool_input_widget import ToolInputWidget
 from gui.widgets.touch_button import make_touch_button
 from database.db_manager import Database
 
+ASSETS_DIR = Path(__file__).parent.parent.parent.parent / "assets"
+
 
 class ToolDetailPage(QWidget):
     """
@@ -61,16 +63,16 @@ class ToolDetailPage(QWidget):
 
         self.save_button = self.ui.findChild(QToolButton, "toolDetailPage_saveButton")
         make_touch_button(self.save_button,
-                          icon_path="../assets/saveTool.svg",
-                          clicked_icon_path="../assets/saveTool_clicked.svg")
+                          icon_path=str(ASSETS_DIR / "saveTool.svg"),
+                          clicked_icon_path=str(ASSETS_DIR / "saveTool_clicked.svg"))
 
         # Dein bestehendes clicked-Signal bleibt für die Logik
         self.save_button.pressed.connect(self.save_tool)
 
         self.delete_button = self.ui.findChild(QToolButton, "toolDetailPage_deleteButton")
         make_touch_button(self.delete_button,
-                          icon_path="../assets/deleteTool.svg",
-                          clicked_icon_path="../assets/deleteTool.svg")
+                          icon_path=str(ASSETS_DIR / "deleteTool.svg"),
+                          clicked_icon_path=str(ASSETS_DIR / "deleteTool.svg"))
         self.delete_button.clicked.connect(lambda: self.confirm_delete())
 
         self.name_lineEdit = self.ui.findChild(QLineEdit, "toolDetailPage_nameLineEdit")

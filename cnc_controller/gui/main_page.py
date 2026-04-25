@@ -1,4 +1,3 @@
-import os
 from PySide6.QtWidgets import (
     QMainWindow, QPushButton, QToolButton, QProgressBar,
     QLabel, QFrame, QStackedWidget, QWidget,
@@ -8,6 +7,8 @@ from PySide6.QtCore import QFile, QSize, Qt, QTimer, QTime
 from PySide6.QtGui import QIcon
 import random
 from pathlib import Path
+
+ASSETS_DIR = Path(__file__).parent.parent.parent / "assets"
 
 from gui.widgets.scroll_widget import ScrollWidget
 from gui.widgets.touch_button import make_touch_button
@@ -35,7 +36,7 @@ class MainPage(QMainWindow):
         self.ui = loader.load(ui_file)
         ui_file.close()
 
-        self.setWindowIcon(QIcon("../assets/logo.svg"))
+        self.setWindowIcon(QIcon(str(ASSETS_DIR / "logo.svg")))
 
         self.setCentralWidget(self.ui)
         self.setWindowTitle("Controller")
@@ -109,8 +110,8 @@ class MainPage(QMainWindow):
         # Erst Touch-Icon einstellen
         make_touch_button(
             self.quick_return_button,
-            icon_path="../assets/return.svg",
-            clicked_icon_path="../assets/return.svg"
+            icon_path=str(ASSETS_DIR / "return.svg"),
+            clicked_icon_path=str(ASSETS_DIR / "return.svg"),
         )
 
         self.quick_return_button.clicked.connect(self.on_return_button_clicked)
@@ -213,24 +214,24 @@ class MainPage(QMainWindow):
             print(checked)
             if checked:
                 print("Coolant on")
-                self.quick_coolant_button.setIcon(QIcon("../assets/coolant_on.svg"))
+                self.quick_coolant_button.setIcon(QIcon(str(ASSETS_DIR / "coolant_on.svg")))
             else:
                 print("Coolant off")
-                self.quick_coolant_button.setIcon(QIcon("../assets/coolant_off.svg"))
+                self.quick_coolant_button.setIcon(QIcon(str(ASSETS_DIR / "coolant_off.svg")))
         except Exception as e:
             print("ERROR when changing coolant state:", e)
-            self.quick_coolant_button.setIcon(QIcon("../assets/coolant_error.svg"))
+            self.quick_coolant_button.setIcon(QIcon(str(ASSETS_DIR / "coolant_error.svg")))
 
     # Update light button and send command to the API
     def toggle_light_button(self, checked: bool):
         try:
             if checked:
-                self.quick_light_button.setIcon(QIcon("../assets/light_on.svg"))
+                self.quick_light_button.setIcon(QIcon(str(ASSETS_DIR / "light_on.svg")))
             else:
-                self.quick_light_button.setIcon(QIcon("../assets/light_off.svg"))
+                self.quick_light_button.setIcon(QIcon(str(ASSETS_DIR / "light_off.svg")))
         except Exception as e:
             print("ERROR when changing light state:", e)
-            self.quick_light_button.setIcon(QIcon("../assets/light_error.svg"))
+            self.quick_light_button.setIcon(QIcon(str(ASSETS_DIR / "light_error.svg")))
 
     # Update spindle load bar and value
     def update_spindle_load(self, load_percent: float):

@@ -10,6 +10,8 @@ from pathlib import Path
 from gui.widgets.scroll_widget import ScrollWidget
 from database.workpiece_model import Workpiece
 
+ASSETS_DIR = Path(__file__).parent.parent.parent.parent / "assets"
+
 
 class KanbanCard(QFrame):
     """Kanban-Karte mit Long-Press Drag."""
@@ -54,7 +56,7 @@ class KanbanCard(QFrame):
         layout.addWidget(self.counter_label)
 
         delete_btn = QToolButton()
-        delete_btn.setIcon(QIcon("../assets/delete.svg"))
+        delete_btn.setIcon(QIcon(str(ASSETS_DIR / "delete.svg")))
         delete_btn.setIconSize(QSize(25, 25))
         delete_btn.setStyleSheet("border: none;")
         delete_btn.clicked.connect(self.delete_self)

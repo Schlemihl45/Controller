@@ -24,6 +24,8 @@ from database.db_manager import Database
 from database.workpiece_model import Workpiece
 from gui.widgets.kanban_board import KanbanBoard
 
+ASSETS_DIR = Path(__file__).parent.parent.parent.parent / "assets"
+
 
 class WorkpieceFrame(QFrame):
     openWorkpieceDetails = Signal(object)
@@ -52,7 +54,7 @@ class WorkpieceFrame(QFrame):
         layout.setSpacing(10)
 
         icon = QToolButton(self)
-        icon.setIcon(QIcon("../assets/file-3d.svg"))
+        icon.setIcon(QIcon(str(ASSETS_DIR / "file-3d.svg")))
         icon.setIconSize(QSize(48, 48))
         icon.setEnabled(False)
         icon.setStyleSheet("border: none;")
@@ -167,7 +169,7 @@ class WorkpiecesPage(QWidget):
         buttons_layout.setSpacing(6)
 
         add_button = QToolButton(self)
-        add_button.setIcon(QIcon("../assets/addTool.svg"))
+        add_button.setIcon(QIcon(str(ASSETS_DIR / "addTool.svg")))
         add_button.setIconSize(QSize(48, 48))
         add_button.setStyleSheet("background-color: #1c314d;")
         buttons_layout.addWidget(add_button)

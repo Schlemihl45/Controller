@@ -12,6 +12,7 @@ from database.db_manager import Database
 from gui.widgets.scroll_widget import ScrollWidget
 from gui.widgets.touch_button import make_touch_button
 
+ASSETS_DIR = Path(__file__).parent.parent.parent.parent / "assets"
 DB_PATH = Path(__file__).parent.parent.parent / "database" / "database.db"
 
 
@@ -44,12 +45,12 @@ class ToolsFrame(QFrame):
 
 
         # Load icons
-        icon_endmill = QIcon("../assets/endmill.svg")
-        icon_radiusEndmill = QIcon("../assets/radius_endmill.svg")
-        icon_facemill = QIcon("../assets/facemill.svg")
-        icon_chamferEndmill = QIcon("../assets/chamfermill.svg")
-        icon_threadmill = QIcon("../assets/threadmill.svg")
-        icon_drill = QIcon("../assets/drill.svg")
+        icon_endmill = QIcon(str(ASSETS_DIR / "endmill.svg"))
+        icon_radiusEndmill = QIcon(str(ASSETS_DIR / "radius_endmill.svg"))
+        icon_facemill = QIcon(str(ASSETS_DIR / "facemill.svg"))
+        icon_chamferEndmill = QIcon(str(ASSETS_DIR / "chamfermill.svg"))
+        icon_threadmill = QIcon(str(ASSETS_DIR / "threadmill.svg"))
+        icon_drill = QIcon(str(ASSETS_DIR / "drill.svg"))
 
 
 
@@ -158,7 +159,7 @@ class ToolsPage(QWidget):
 
 
         self.addToolButton = QToolButton(self)
-        self.addToolButton.setIcon(QIcon("../assets/addTool.svg"))
+        self.addToolButton.setIcon(QIcon(str(ASSETS_DIR / "addTool.svg")))
         self.addToolButton.setIconSize(QSize(48, 48))
         self.addToolButton.setStyleSheet("background-color: #1c314d;")
         self.addToolButton.clicked.connect(self.openToolDetail.emit)
