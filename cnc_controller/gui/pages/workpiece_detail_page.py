@@ -1,8 +1,10 @@
 from pathlib import Path
 
-from PySide6.QtCore import QFile, Qt
-from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QFrame, QLabel, QToolButton, QVBoxLayout, QWidget
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+    QFrame, QHBoxLayout, QLabel, QPlainTextEdit,
+    QSizePolicy, QToolButton, QVBoxLayout, QWidget,
+)
 
 from database.workpiece_model import Workpiece
 from gui.widgets.scroll_widget import ScrollWidget
@@ -39,6 +41,7 @@ class FileFrame(QFrame):
 class WorkpieceDetailPage(QWidget):
     """
     WorkpieceDetailPage for the CNC Controller GUI.
+    Shows workpiece metadata and lists associated G-code files.
     """
 
     def __init__(self, parent=None, workpiece: Workpiece | None = None):
@@ -46,34 +49,54 @@ class WorkpieceDetailPage(QWidget):
 
         self.workpiece = workpiece
 
-        # Load the .ui
-        loader = QUiLoader()
-        ui_path = Path(__file__).parent / "workpiece_detail_page.ui"
-        ui_file = QFile(str(ui_path))
-        if not ui_file.open(QFile.ReadOnly):
-            raise IOError(f"Cannot open {ui_path}")
-        self.ui = loader.load(ui_file, self)
-        ui_file.close()
+        # ---- Root layout ----
+        root_layout = QVBoxLayout(self)
+        root_layout.setContentsMargins(9, 9, 9, 9)
+        root_layout.setSpacing(6)
 
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(self.ui)
+        # ---- Header row: name button + delete button ----
+        header_layout = QHBoxLayout()
+        header_layout.setSpacing(6)
 
-        # Title
-        self.name_label = self.ui.findChild(
-            QToolButton, "workpieceDetailPage_nameButton"
-        )
-        self.name_label.setText(self.workpiece.name)
+        self.name_label = QToolButton(self)
+        self.name_label.setObjectName("workpieceDetailPage_nameButton")
+        self.name_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        self.name_label.setText(self.workpiece.name if self.workpiece else "")
+        header_layout.addWidget(self.name_label)
 
-        # File browser
-        self.files_placeholder = self.ui.findChild(
-            QFrame, "files_placeholderFrame"
-        )
+        self.delete_button = QToolButton(self)
+        self.delete_button.setObjectName("workpieceDetailPage_deleteProjectButton")
+        self.delete_button.setMinimumSize(100, 100)
+        self.delete_button.setText("Delete")
+        header_layout.addWidget(self.delete_button)
+
+        root_layout.addLayout(header_layout)
+
+        # ---- Middle row: description ----
+        middle_layout = QHBoxLayout()
+
+        self.description_frame = QFrame(self)
+        self.description_frame.setObjectName("workpieceDetailPage_descriptionFrame")
+        self.description_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        desc_layout = QVBoxLayout(self.description_frame)
+        self.description_edit = QPlainTextEdit(self.description_frame)
+        self.description_edit.setObjectName("workpieceDetailPage_descriptionTextEdit")
+        desc_layout.addWidget(self.description_edit)
+        middle_layout.addWidget(self.description_frame)
+
+        root_layout.addLayout(middle_layout)
+
+        # ---- File browser ----
+        self.files_placeholder = QFrame(self)
+        self.files_placeholder.setObjectName("files_placeholderFrame")
+        self.files_placeholder.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+
         self.filesBrowser = ScrollWidget()
-
         placeholder_layout = QVBoxLayout(self.files_placeholder)
         placeholder_layout.setContentsMargins(0, 0, 0, 0)
         placeholder_layout.addWidget(self.filesBrowser)
+
+        root_layout.addWidget(self.files_placeholder)
 
         self.load_workpiece_files()
 
@@ -92,9 +115,7 @@ class WorkpieceDetailPage(QWidget):
         if not files_frame:
             placeholder = QLabel("No G-Code files found.")
             placeholder.setAlignment(Qt.AlignCenter)
-            placeholder.setStyleSheet(
-                "color: #AAB2C5; font-size: 16px;"
-            )
+            placeholder.setStyleSheet("color: #AAB2C5; font-size: 16px;")
             self.filesBrowser.objects_layout.addWidget(placeholder)
             return
 

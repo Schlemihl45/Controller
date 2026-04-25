@@ -1,55 +1,104 @@
 from pathlib import Path
 
-from PySide6.QtCore import QEvent, QFile, Qt
-from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QSizePolicy, QStackedWidget, QToolButton, QVBoxLayout, QWidget
+from PySide6.QtCore import QEvent, Qt
+from PySide6.QtWidgets import (
+    QFrame, QGridLayout, QHBoxLayout, QPushButton,
+    QSizePolicy, QStackedWidget, QToolButton, QVBoxLayout, QWidget,
+)
 
 
 class MachinePage(QWidget):
-    """
-    Grundlegende Seite zur Maschinensteuerung.
-    Lädt nur das zugehörige .ui-Layout.
-    """
+    """Machine control page with Manual and Auto mode tabs."""
 
     def __init__(self):
         super().__init__()
 
-        loader = QUiLoader()
-        ui_path = Path(__file__).parent / "machine_page.ui"
-        ui_file = QFile(str(ui_path))
-        if not ui_file.open(QFile.ReadOnly):
-            raise IOError(f"Cannot open {ui_path}")
+        root_layout = QVBoxLayout(self)
+        root_layout.setContentsMargins(0, 0, 0, 0)
+        root_layout.setSpacing(0)
 
-        self.ui = loader.load(ui_file, self)  # pass self as parent
-        ui_file.close()
+        # ---- Mode selector buttons ----
+        mode_bar = QHBoxLayout()
+        mode_bar.setSpacing(0)
 
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(0, 0, 0, 0)  # remove margins
-        layout.setSpacing(0)
-        layout.addWidget(self.ui)
+        self.manual_mode_button = QToolButton(self)
+        self.manual_mode_button.setObjectName("manual_mode_button")
+        self.manual_mode_button.setText("Manual")
+        self.manual_mode_button.setCheckable(True)
+        self.manual_mode_button.setChecked(True)
+        self.manual_mode_button.setAutoExclusive(True)
+        self.manual_mode_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        mode_bar.addWidget(self.manual_mode_button)
 
-        """
-        Find all functional widgets
-        """
+        self.auto_mode_button = QToolButton(self)
+        self.auto_mode_button.setObjectName("auto_mode_button")
+        self.auto_mode_button.setText("AUTO")
+        self.auto_mode_button.setCheckable(True)
+        self.auto_mode_button.setAutoExclusive(True)
+        self.auto_mode_button.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        mode_bar.addWidget(self.auto_mode_button)
 
-        # Manual mode button
-        self.manual_mode_button = self.ui.findChild(QToolButton, "manual_mode_button")
-        self.manual_mode_button.clicked.connect(lambda: self.switch_mode("manual"))
+        root_layout.addLayout(mode_bar)
 
-        # Auto mode button
-        self.auto_mode_button = self.ui.findChild(QToolButton, "auto_mode_button")
-        self.auto_mode_button.clicked.connect(lambda: self.switch_mode("auto"))
+        line = QFrame(self)
+        line.setFrameShape(QFrame.HLine)
+        line.setFrameShadow(QFrame.Sunken)
+        root_layout.addWidget(line)
 
-        # Stacked widget(s)
-        self.mode_stackedWidget = self.ui.findChild(QStackedWidget, "machinePage_modeStackedWidget")
-        self.manual_widget = self.ui.findChild(QWidget, "manualPage")
-        self.auto_widget = self.ui.findChild(QWidget, "autoPage")
+        # ---- Mode stacked widget ----
+        self.mode_stackedWidget = QStackedWidget(self)
+        self.mode_stackedWidget.setObjectName("machinePage_modeStackedWidget")
+        self.mode_stackedWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
+        # Manual page
+        self.manual_widget = QWidget()
+        self.manual_widget.setObjectName("manualPage")
+        manual_layout = QVBoxLayout(self.manual_widget)
+
+        self.manual_jogFrame = QFrame(self.manual_widget)
+        self.manual_jogFrame.setObjectName("manual_jogFrame")
+        jog_grid = QGridLayout(self.manual_jogFrame)
+        jog_buttons = [
+            (0, 0, "Diag"), (0, 1, "Y +"),  (0, 2, "Diag"), (0, 4, "Z +"),
+            (1, 0, "X -"),  (1, 1, "RAPID"), (1, 2, "X +"),  (1, 4, ""),
+            (2, 0, "Diag"), (2, 1, "Y -"),   (2, 2, "Diag"), (2, 4, "Z -"),
+        ]
+        for row, col, label in jog_buttons:
+            btn = QPushButton(label, self.manual_jogFrame)
+            btn.setMinimumSize(100, 100)
+            jog_grid.addWidget(btn, row, col)
+        manual_layout.addWidget(self.manual_jogFrame)
+
+        self.manual_mdiFrame = QFrame(self.manual_widget)
+        self.manual_mdiFrame.setObjectName("manual_mdiFrame")
+        self.manual_mdiFrame.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        mdi_layout = QVBoxLayout(self.manual_mdiFrame)
+        mdi_btn = QPushButton("MDI", self.manual_mdiFrame)
+        mdi_btn.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        mdi_layout.addWidget(mdi_btn)
+        manual_layout.addWidget(self.manual_mdiFrame)
+
+        # Auto page
+        self.auto_widget = QWidget()
+        self.auto_widget.setObjectName("autoPage")
+        auto_layout = QVBoxLayout(self.auto_widget)
+        self.autoPage_codeFrame = QFrame(self.auto_widget)
+        self.autoPage_codeFrame.setObjectName("autoPage_codeFrame")
+        auto_layout.addWidget(self.autoPage_codeFrame)
+
+        self.mode_stackedWidget.addWidget(self.manual_widget)
+        self.mode_stackedWidget.addWidget(self.auto_widget)
         self.mode_stackedWidget.setCurrentWidget(self.manual_widget)
+        root_layout.addWidget(self.mode_stackedWidget)
 
+        # ---- Swipe state ----
         self._swipe_start_x = None
-        for child in self.ui.findChildren(QWidget):
+        for child in self.findChildren(QWidget):
             child.installEventFilter(self)
+
+        # ---- Signal connections ----
+        self.manual_mode_button.clicked.connect(lambda: self.switch_mode("manual"))
+        self.auto_mode_button.clicked.connect(lambda: self.switch_mode("auto"))
 
     def eventFilter(self, obj, event):
         if event.type() == QEvent.MouseButtonPress:
@@ -64,45 +113,16 @@ class MachinePage(QWidget):
             self._swipe_start_x = None
         return super().eventFilter(obj, event)
 
-    def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self._swipe_start_x = event.pos().x()
-
-    def mouseReleaseEvent(self, event):
-        if self._swipe_start_x is None:
-            return
-
-        delta_x = event.pos().x() - self._swipe_start_x
-        threshold = 5000  # Pixel-Schwelle für echten Wisch
-
-        if delta_x > threshold:
-            # Wisch nach rechts → Manual Mode
-            self.switch_mode("manual")
-        elif delta_x < -threshold:
-            # Wisch nach links → Auto Mode
-            self.switch_mode("auto")
-
-        self._swipe_start_x = None
-
-
-    # Switching between the mode-pages
     def switch_mode(self, mode: str):
         if mode == "manual":
-            if self.manual_mode_button:
-                self.manual_mode_button.setChecked(True)
-                self.auto_mode_button.setChecked(False)
-
-                self.manual_mode_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-                self.auto_mode_button.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-            if self.manual_widget:
-                self.mode_stackedWidget.setCurrentWidget(self.manual_widget)
+            self.manual_mode_button.setChecked(True)
+            self.auto_mode_button.setChecked(False)
+            self.manual_mode_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+            self.auto_mode_button.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+            self.mode_stackedWidget.setCurrentWidget(self.manual_widget)
         elif mode == "auto":
-            if self.auto_mode_button:
-                self.auto_mode_button.setChecked(True)
-                self.auto_mode_button.setChecked(False)
-
-                self.manual_mode_button.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-                self.auto_mode_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-
-            if self.auto_widget:
-                   self.mode_stackedWidget.setCurrentWidget(self.auto_widget)
+            self.auto_mode_button.setChecked(True)
+            self.manual_mode_button.setChecked(False)
+            self.manual_mode_button.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+            self.auto_mode_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+            self.mode_stackedWidget.setCurrentWidget(self.auto_widget)
